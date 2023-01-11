@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
     sendToServer(sock_fd);
     pthread_create(&recvThread, NULL, recvFuncThread, &sock_fd);
     printf("send success, wait server echo\n");
-    
+
     if (waitFromServer(sock_fd)) {
         printf("No echo from server \n");
         pthread_cancel(recvThread);
@@ -102,7 +102,7 @@ void *recvFuncThread(void *sock_fd) {
         pthread_exit(0);
     }
     isRecv = 1;
-    printf("recv success, server echo: %d \n", recvBuf);
+    printf("recv success, server echo: %s \n", recvBuf);
 }
 
 int myPow(int base, int exp) {
