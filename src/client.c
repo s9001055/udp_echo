@@ -75,7 +75,6 @@ int waitFromServer(int sock_fd) {
     int addr_len = sizeof(struct sockaddr_in);
     clock_t start, end;
     int maxRetry = (log(MAX_WAIT_INTERVAL/TIME_BASE) / log(MULTIPLIER));
-    int waitTime;
     int diffTime;
 
     int time;
