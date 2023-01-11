@@ -19,35 +19,21 @@ int waitFromServer(int sock_fd);
 void *recvFuncThread(void *sock_fd);
 void sendToServer(int sock_fd);
 int myPow(int base, int exp);
-void msgQueueInit();
 
 #define MULTIPLIER          2
 #define TIME_BASE           500  //ms
 #define MAX_WAIT_INTERVAL   8000 //ms
 #define MSG_LEN             64
-#define MSG_QUEUE_SIZE      8
-
-
-typedef struct msgQueue {
-    char msgList[MSG_QUEUE_SIZE][MSG_LEN];
-    int MsgHead;
-    int unSendMsg;
-}msgQueue;
-
-struct msgQueue *clientMsg;
-
 
 char buf[MSG_LEN];
 int isRecv = -1;
 struct sockaddr_in gServer_addr;
-struct sockaddr_in gClient_addr;
 
 int main(int argc, char **argv) {
     if (argc < 3) {
         printf("pls input Server IP & Server Port \n");
         return -1;
     }
-    //msgQueueInit();
     
     int sock_fd;
     int addr_len = sizeof(struct sockaddr_in);
@@ -133,8 +119,4 @@ int myPow(int base, int exp) {
     }
 
     return ret;
-}
-
-void msgQueueInit() {
-    clientMsg = (struct msgQueue*) malloc(sizeof(struct msgQueue));
 }
