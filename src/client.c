@@ -23,7 +23,7 @@ int myPow(int base, int exp);
 #define MULTIPLIER          2
 #define TIME_BASE           500  //ms
 #define MAX_WAIT_INTERVAL   8000 //ms
-#define MSG_LEN             64
+#define MSG_LEN             128
 
 char buf[MSG_LEN];
 int isRecv = -1;
@@ -95,15 +95,14 @@ int waitFromServer(int sock_fd) {
 void *recvFuncThread(void *sock_fd) {
     int serv_fd = *(int *) sock_fd;
     int addr_len = sizeof(struct sockaddr_in);
-    char recvBuf[128] = {0};
+    char recvBuf[MSG_LEN] = {0};
 
     if (recvfrom(serv_fd, recvBuf, sizeof(recvBuf), 0, (struct sockaddr*)&gServer_addr, &addr_len) < 0) {
         printf("recv thread error \n");
         pthread_exit(0);
     }
     isRecv = 1;
-    printf("recv success \n");
-    
+    printf("recv success, server echo: %d \n", recvBuf);
 }
 
 int myPow(int base, int exp) {
