@@ -1,5 +1,5 @@
 /*
- * udp chat room
+ * udp echo packet server
  *
  * by Arthur Chang
  * 
@@ -12,6 +12,8 @@
 #include <sys/socket.h>
 #include <pthread.h>
 #include <arpa/inet.h>
+
+void *recvFuncThread(void *sock_fd);
 
 struct sockaddr_in gServer_addr;
 struct sockaddr_in gClient_addr;
@@ -63,12 +65,13 @@ void *recvFuncThread(void *sock_fd) {
     int addr_len = sizeof(struct sockaddr_in);
     char buf[128] = {0};
     while (1) {
-        if (recvfrom(serv_fd, &buf, sizeof(buf), 0, (struct sockaddr*)&gClient_addr, &addr_len) < 0) {
+        if (recvfrom(serv_fd, buf, sizeof(buf), 0, (struct sockaddr*)&gClient_addr, &addr_len) < 0) {
             printf("recv thread error \n");
             pthread_exit(0);
         }
 
-        
+        sendto(serv_fd, buf, strlen(buf), 0, (struct sockaddr*)&gClient_addr, addr_len);
+        printf("recv data: %s", buf);
     }
 }
 
